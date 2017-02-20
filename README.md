@@ -25,3 +25,7 @@ Le framework Django sera utilisé pour développer ce projet.
 * Avoir des collections collaboratives (plusieurs personnes peuvent la modifier)
 * Suggérer des liens en fonction du titre de la collection
 * Avoir une black-list de liens
+
+#Maquette
+
+#Schéma de la base de données
