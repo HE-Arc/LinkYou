@@ -26,6 +26,41 @@ Le framework Django sera utilisé pour développer ce projet.
 * Suggérer des liens en fonction du titre de la collection
 * Avoir une black-list de liens
 
+
+# Setup
+
+Créer un utilisateur et une base de données postgre
+
+```
+>> sudo su - postgres
+>> psql
+
+>> CREATE DATABASE linkyou;
+>> CREATE USER myprojectuser WITH PASSWORD 'password';
+
+>> ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
+>> ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
+>> ALTER ROLE myprojectuser SET timezone TO 'UTC';
+
+>> GRANT ALL PRIVILEGES ON DATABASE linkyou TO myprojectuser;
+```
+
+Configurer les variables d'environnement
+
+```
+# ~/.bashrc
+
+export DJANGO_SECRET_KEY="YOUR_KEY"
+export DJANGO_DEBUG=True
+export DJANGO_DB_NAME="snapventure"
+export DJANGO_DB_USER="root"
+export DJANGO_DB_PWD="1234"
+export DJANGO_DB_HOST="localhost"
+
+```
+
+It's ok now
+
 #Maquette
 
 Page principale :
