@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'LinkYou.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('LINKYOU_DB_NAME', False),
+        'USER': os.environ.get('LINKYOU_DB_USER', False),
+        'PASSWORD': os.environ.get('LINKYOU_DB_PASSWORD', False),
+        'HOST': os.environ.get('LINKYOU_DB_HOST', False),
+        'PORT': '',
     }
 }
 
