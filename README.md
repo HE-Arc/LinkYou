@@ -28,4 +28,10 @@ Le framework Django sera utilisé pour développer ce projet.
 
 #Maquette
 
+Page principale :
+![](https://github.com/HE-Arc/LinkYou/blob/master/docs/2017-02-20%2013.06.56.jpg)
+
+Page d'une collection de liens :
+![](https://github.com/HE-Arc/LinkYou/blob/master/docs/2017-02-20%2013.06.43.jpg)
+
 #Schéma de la base de données
