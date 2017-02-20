@@ -54,7 +54,7 @@ export LINKYOU_SECRET_KEY="YOUR_KEY"
 export LINKYOU_DEBUG=True
 export LINKYOU_DB_NAME="snapventure"
 export LINKYOU_DB_USER="root"
-export LINKYOU_DB_PWD="1234"
+export LINKYOU_DB_PASSWORD="1234"
 export LINKYOU_DB_HOST="localhost"
 
 ```
