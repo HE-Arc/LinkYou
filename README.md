@@ -50,12 +50,12 @@ Configurer les variables d'environnement
 ```
 # ~/.bashrc
 
-export DJANGO_SECRET_KEY="YOUR_KEY"
-export DJANGO_DEBUG=True
-export DJANGO_DB_NAME="snapventure"
-export DJANGO_DB_USER="root"
-export DJANGO_DB_PWD="1234"
-export DJANGO_DB_HOST="localhost"
+export LINKYOU_SECRET_KEY="YOUR_KEY"
+export LINKYOU_DEBUG=True
+export LINKYOU_DB_NAME="snapventure"
+export LINKYOU_DB_USER="root"
+export LINKYOU_DB_PWD="1234"
+export LINKYOU_DB_HOST="localhost"
 
 ```
 
