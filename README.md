@@ -27,7 +27,7 @@ Le framework Django sera utilisé pour développer ce projet.
 * Avoir une black-list de liens
 
 
-# Setup
+# Setup database
 
 Créer un utilisateur et une base de données postgre
 
@@ -50,7 +50,6 @@ Configurer les variables d'environnement
 ```
 # ~/.bashrc
 
-export LINKYOU_SECRET_KEY="YOUR_KEY"
 export LINKYOU_DEBUG=True
 export LINKYOU_DB_NAME="snapventure"
 export LINKYOU_DB_USER="root"
