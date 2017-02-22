@@ -57,17 +57,3 @@ export LINKYOU_DB_PASSWORD="1234"
 export LINKYOU_DB_HOST="localhost"
 
 ```
-
-It's ok now
-
-#Maquette
-
-Page principale :
-![](https://github.com/HE-Arc/LinkYou/blob/master/docs/2017-02-20%2013.06.56.jpg)
-
-Page d'une collection de liens :
-![](https://github.com/HE-Arc/LinkYou/blob/master/docs/2017-02-20%2013.06.43.jpg)
-
-#Schéma de la base de données
-
-![](https://github.com/HE-Arc/LinkYou/blob/master/docs/BDD_Linkyou.png)
