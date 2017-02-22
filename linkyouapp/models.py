@@ -28,4 +28,4 @@ class Link(models.Model):
     )
 
     def __str__(self):
-        return u'%s' % self.name
+        return u'%s' % self.text
