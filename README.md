@@ -25,35 +25,3 @@ Le framework Django sera utilisé pour développer ce projet.
 * Avoir des collections collaboratives (plusieurs personnes peuvent la modifier)
 * Suggérer des liens en fonction du titre de la collection
 * Avoir une black-list de liens
-
-
-# Setup database
-
-Créer un utilisateur et une base de données postgre
-
-```
->> sudo su - postgres
->> psql
-
->> CREATE DATABASE linkyou;
->> CREATE USER myprojectuser WITH PASSWORD 'password';
-
->> ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
->> ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
->> ALTER ROLE myprojectuser SET timezone TO 'UTC';
-
->> GRANT ALL PRIVILEGES ON DATABASE linkyou TO myprojectuser;
-```
-
-Configurer les variables d'environnement
-
-```
-# ~/.bashrc
-
-export LINKYOU_DEBUG=True
-export LINKYOU_DB_NAME="snapventure"
-export LINKYOU_DB_USER="root"
-export LINKYOU_DB_PASSWORD="1234"
-export LINKYOU_DB_HOST="localhost"
-
-```
