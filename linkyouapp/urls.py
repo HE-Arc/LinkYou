@@ -4,6 +4,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^accounts/',include('registration.backends.simple.urls'), name='registration_register'),
+    url(r'^collection/new', views.CollectionCreateView.as_view(), name='new_collection'),
     url(r'^login', auth_views.login, name='login'),
     url(r'^logout', auth_views.logout, name='logout'),
     url(r'^about', views.About.as_view(), name='about'),            # The about page
