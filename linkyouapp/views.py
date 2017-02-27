@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, DeleteView
+from .models import Collection, Link
+from forms import CollectionForm, LinkForm
 
 # Will be used for user authenticated views
 #from django.contrib.auth.mixins import LoginRequiredMixin
@@ -44,8 +46,9 @@ class CollectionDetailView(DetailView):
 
 class CollectionCreateView(CreateView):
     '''The view of a collection creation'''
-    # Coming when models exist
-    pass
+    template_name = 'collection_form.html'
+    model = Collection
+    form_class = CollectionForm
 
 class CollectionUpdateView(UpdateView):
     '''Update collection view'''
