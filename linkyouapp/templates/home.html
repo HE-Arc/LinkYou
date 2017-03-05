@@ -3,44 +3,82 @@
 {% block content %}
 
 
-<div class="container">
-  <div class="col-md-12">
-    <h1>Welcome to LinkYou</h1>
-    <h3>Cool subtitle</h3>
+<div class="container-fluid p-0 bg-faded">
+  <div class="container">
+    <div class="row py-5">
+      <div class="col-md-12 py-5">
+        <h1 class="display-1" style="font-weight: 800; letter-spacing: -.1em;">linkyou</h1>
+        <p class="lead">A nice way to share collections of web ressources.</p>
+        <a href="{% url 'registration_register' %}" type="button" class="btn btn-primary">Sign up</a>
+        <a href="{% url 'login' %}" type="button" class="btn btn-secondary">Log in</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-    <p>
-      Last collections:
-      <ul>
-        <li>Collection1 </li>
-        <li>Collection2</li>
-        <li>Collection3</li>
-      </ul>
+<div class="container ">
 
-      <a href="{% url 'registration_register' %}" type="button" class="btn btn-primary">Sign up</a>
-      <a href="{% url 'login' %}" type="button" class="btn btn-secondary">Log in</a>
-      <br/>
-      <br/>
-
-      Last register users :
-      <ul>
-        <li>User1</li>
-        <li>User2</li>
-        <li>User2</li>
-      </ul>
-    </p>
-    <p>
-      Quelques idées pour ici :
-    </p>
-
-    <ul>
-      <li>Une landing page qui vend du rêve avec concept, inscription et parcourir les collections</li>
-      <li>Afficher directement les quelques dernières collections</li>
-      <li>Afficher directement les derniers utilisateurs inscrits</li>
-      <li>[add your idea here]</li>
-    </ul>
+  <div class="row my-5">
+    <div class="col-md-12">
+      <h2 class="case-title">Featured collections</h2>
+    </div>
 
 
+    {% for c in collections|slice:"3" %}
+    <div class="col-md-4">
+      <div class="card card-inverse">
+        <img class="card-img" src="http://lorempicsum.com/futurama/255/255/2" alt="Card image">
+        <div class="card-img-filter">
+          <div class="card-img-overlay">
+            <h4 class="card-title">{{c.name}}</h4>
+            <p class="card-text d-flex">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="row pb-5">
+    <div class="col-md-6">
+
+      <h2 class="case-title">Last collectors</h2>
+
+      <div class="list-group">
+        {% for i in "xxxxx" %}
+        <a href="#" class="list-group-item list-group-item-action flex-row align-content-center">
+          <div class="d-inline-flex w-20">
+            <img src="http://www.wallstreetotc.com/wp-content/uploads/2014/10/facebook-anonymous-app.jpg" width="50" class="rounded-circle m-1 mr-3">
+          </div>
+          <div class="d-inline-flex w-80 justify-content-between">
+            <h5 class="mb-1">ishydoe{{forloop.counter}}</h5>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+
+    </div>
+    <div class="col-md-6">
+
+      <h2 class="case-title">Last collections</h2>
+
+      <div class="row">
+        {% for x in "xxxx" %}
+        <div class="col-md-6 mb-4">
+          <div class="card card-inverse">
+            <img class="card-img" src="http://lorempicsum.com/futurama/627/200/3" alt="Card image">
+            <div class="card-img-filter">
+              <div class="card-img-overlay">
+                <h4 class="card-title">Card title</h4>
+                <p class="card-text d-flex">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
 
   </div>
 </div>
