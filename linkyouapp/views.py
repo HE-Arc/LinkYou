@@ -16,7 +16,7 @@ class Home(TemplateView):
         if request.user.is_authenticated :
             return render(request, "dashboard.html")
         else :
-            return render(request, "home.html")
+            return render(request, "home.html", {"collections": Collection.objects.all()})
 
 class About(TemplateView):
     '''You know, if we have the time to do it'''
