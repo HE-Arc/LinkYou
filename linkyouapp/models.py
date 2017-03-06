@@ -6,7 +6,7 @@ from tagging.fields import TagField
 class Collection(models.Model):
     name= models.CharField(max_length=255)
     slug = models.SlugField(unique=True, max_length = 200)
-    image = models.ImageField()
+    image = models.ImageField(blank=True)
     likes = models.IntegerField()
     tags = TagField()
     user_it_belongs = models.ForeignKey(
