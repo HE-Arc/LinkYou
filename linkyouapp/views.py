@@ -65,7 +65,7 @@ class CollectionCreateView(LoginRequiredMixin, CreateView):
     form_class = CollectionForm
 
     def get_success_url(self):
-         return reverse('dashboard')
+         return reverse('new_link')
 
 class CollectionUpdateView(LoginRequiredMixin, UpdateView):
     '''Update collection view'''
@@ -77,3 +77,11 @@ class CollectionDeleteView(LoginRequiredMixin, DeleteView):
     pass
 
 # TODO: The same views as above for links here please and fill them of course
+class LinkCreateView(LoginRequiredMixin, CreateView):
+    '''View of a link creation'''
+    template_name = 'link_form.html'
+    model = Link
+    form_class = LinkForm
+
+    def get_success_url(self):
+        return reverse('dashboard')
