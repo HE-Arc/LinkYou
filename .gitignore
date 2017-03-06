@@ -1,4 +1,7 @@
 /envLinkYou
+/migrations/*
+/media/uploads/img/collection/*
+*.jpg
 *.egg-info
 *.pot
 *.py[co]
