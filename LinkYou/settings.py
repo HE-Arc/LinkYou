@@ -126,4 +126,4 @@ STATIC_URL = '/static/'
 
 
 
-LOGIN_REDIRECT_URL='home'
+LOGIN_REDIRECT_URL='dashboard'

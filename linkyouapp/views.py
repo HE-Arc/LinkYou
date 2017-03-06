@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Collection, Link
 from .forms import CollectionForm, LinkForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Will be used for user authenticated views
 #from django.contrib.auth.mixins import LoginRequiredMixin
@@ -13,10 +14,7 @@ from django.http import HttpResponse
 class Home(TemplateView):
     '''LinkYou homepage with concept description and call to action'''
     def get(self, request):
-        if request.user.is_authenticated :
-            return render(request, "dashboard.html")
-        else :
-            return render(request, "home.html", {"collections": Collection.objects.all()})
+        return render(request, "home.html")
 
 class About(TemplateView):
     '''You know, if we have the time to do it'''
@@ -32,7 +30,7 @@ class Discover(TemplateView):
 
 
 # User related views
-class UserDashboardView(TemplateView):
+class UserDashboardView(LoginRequiredMixin, TemplateView):
     '''The dashboard of a user and his collections list'''
     # Coming when models exist
     pass
@@ -44,18 +42,18 @@ class CollectionDetailView(DetailView):
     # Coming when models exist
     pass
 
-class CollectionCreateView(CreateView):
+class CollectionCreateView(LoginRequiredMixin, CreateView):
     '''The view of a collection creation'''
     template_name = 'collection_form.html'
     model = Collection
     form_class = CollectionForm
 
-class CollectionUpdateView(UpdateView):
+class CollectionUpdateView(LoginRequiredMixin, UpdateView):
     '''Update collection view'''
     # Coming when models exist
     pass
 
-class CollectionDeleteView(DeleteView):
+class CollectionDeleteView(LoginRequiredMixin, DeleteView):
     '''The delete view yeah'''
     pass
 
