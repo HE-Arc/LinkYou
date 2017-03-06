@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 #from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.http import HttpResponse
+from django.urls import reverse
 
 
 # Static pages related views
@@ -62,6 +63,9 @@ class CollectionCreateView(LoginRequiredMixin, CreateView):
     template_name = 'collection_form.html'
     model = Collection
     form_class = CollectionForm
+
+    def get_success_url(self):
+         return reverse('dashboard')
 
 class CollectionUpdateView(LoginRequiredMixin, UpdateView):
     '''Update collection view'''
