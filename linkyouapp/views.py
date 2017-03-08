@@ -1,29 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, DeleteView, ListView
 from .models import Collection, Link
 from django.contrib.auth.models import User
 from .forms import CollectionForm, LinkForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-# Will be used for user authenticated views
-#from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 
 from django.http import HttpResponse
 from django.urls import reverse
 
 
 # Static pages related views
-class Home(ListView):
+class Home(TemplateView):
     '''LinkYou homepage with concept description and call to action'''
-    context_object_name = 'featured_collection_list'
-    queryset = Collection.objects.order_by("-pk")[:3] #  TODO: filter featured = True ou most liked ?
     template_name = 'home.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(Home, self).get_context_data(**kwargs)      # Le contexte de base defini au dessus
-        context['last_collection_list'] = Collection.objects.order_by("-pk")[:4] # Un ajout pour avoir les dernieres collections
-        context['last_users_list'] = User.objects.order_by("-pk")[:5]  # Un ajout pour avoir les derniers utilisateurs
-        return context
+    def collections(self):
+        return Collection.objects.filter(private=False)
 
 
 class About(TemplateView):
@@ -33,30 +26,32 @@ class About(TemplateView):
 
 class Discover(TemplateView):
     '''The public page to discover users' collections'''
-    def get(self, request):
-        context = {}
-        context["collections"] = ["Collection 1", "Collection 2", "Collection 3", "Collection 4", "Collection 5"]
-        return render(request, "discover.html", context)
+    template_name = 'discover.html'
+
+    def collections(self):
+        return Collection.objects.filter(private=False)
 
 
 # User related views
-class UserDashboardView(LoginRequiredMixin, ListView):
+class UserDashboardView(LoginRequiredMixin, TemplateView):
     '''The dashboard of a user and his collections list'''
-    context_object_name = 'user_collections_list'
-    template_name = 'dashboard.html'
+    template_name = "dashboard.html"
 
-    def get_queryset(self):
+    def collections(self):
         return Collection.objects.filter(user_it_belongs=self.request.user)
 
 class UserProfileView(TemplateView):
-    def get(self, request):
-        return render(request, "profile.html")
+    template_name = "profile.html"
 
 # Collection related views
 class CollectionDetailView(DetailView):
     '''Default view of a collection of links'''
-    # Coming when models exist
-    pass
+    model = Collection
+    template_name = "collection.html"
+
+
+    def get_queryset(self, *args, **kwargs):
+        return Collection.objects.filter(pk=self.kwargs['pk'])
 
 class CollectionCreateView(LoginRequiredMixin, CreateView):
     '''The view of a collection creation'''
@@ -64,8 +59,15 @@ class CollectionCreateView(LoginRequiredMixin, CreateView):
     model = Collection
     form_class = CollectionForm
 
+    def form_valid(self, collection_form):
+        self.object = collection_form.save(commit=False) # Used by the success_url
+        new_collection = collection_form.save(commit=False) # Uncommitted to add creator
+        new_collection.user_it_belongs = self.request.user # Add creator (request user)
+        new_collection.save() # Final save
+        return redirect('new_link', pk=self.object.id, slug=self.object.slug)
+
     def get_success_url(self):
-         return reverse('new_link')
+         return redirect('new_link', pk=self.object.id, slug=self.object.slug)
 
 class CollectionUpdateView(LoginRequiredMixin, UpdateView):
     '''Update collection view'''
@@ -82,6 +84,16 @@ class LinkCreateView(LoginRequiredMixin, CreateView):
     template_name = 'link_form.html'
     model = Link
     form_class = LinkForm
+
+    def form_valid(self, LinkForm):
+        c = Collection.objects.get(pk=self.kwargs['pk'])
+
+        #self.object = LinkForm.save(commit=False) # Used by the success_url
+        new_link = LinkForm.save(commit=False) # Uncommitted to add creator
+        new_link.collection_it_belongs = c # Add creator (request user)
+        new_link.save() # Final save
+        return redirect('dashboard')
+
 
     def get_success_url(self):
         return reverse('dashboard')

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container">
+
+
+<h1>{{collection.name}}</h1>
+
+
+<h3>The links in this collection</h3>
+
+
+<ul class="list-group">
+
+{% for l in collection.link_set.all %}
+
+<li class="list-group-item">
+  <img src="http://www.google.com/s2/favicons?domain={{l.url}}" alt="favicon">&nbsp;
+  <a href="{{l.url}}">{{l.text}}</a>
+</li>
+
+{% endfor %}
+</ul>
+
+</div>
+
+{% endblock %}

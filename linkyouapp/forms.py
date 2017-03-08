@@ -4,9 +4,9 @@ from .models import Collection, Link
 class CollectionForm(forms.ModelForm):
     class Meta:
         model = Collection
-        fields = '__all__'
+        fields = {'name', 'image', 'tags', 'private'}
 
 class LinkForm(forms.ModelForm):
     class Meta:
         model = Link
-        fields = '__all__'
+        fields = {'url', 'text', 'order_id'}
