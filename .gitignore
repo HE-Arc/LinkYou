@@ -1,6 +1,6 @@
 /envLinkYou
 /migrations/*
-/media/uploads/img/collection/*
+/media/uploads/img/collections/*
 *.jpg
 *.egg-info
 *.pot
