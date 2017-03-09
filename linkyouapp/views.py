@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 
 from django.http import HttpResponse
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 
 # Static pages related views
@@ -71,14 +71,17 @@ class CollectionCreateView(LoginRequiredMixin, CreateView):
 
 class CollectionUpdateView(LoginRequiredMixin, UpdateView):
     '''Update collection view'''
-    # Coming when models exist
-    pass
+    model = Collection
+    form_class = CollectionForm
+    template_name = "collection_form.html"
+    success_url = reverse_lazy("dashboard")
 
 class CollectionDeleteView(LoginRequiredMixin, DeleteView):
     '''The delete view yeah'''
-    pass
+    model = Collection
+    template_name = "collection_confirm_delete.html"
+    success_url = reverse_lazy("dashboard")
 
-# TODO: The same views as above for links here please and fill them of course
 class LinkCreateView(LoginRequiredMixin, CreateView):
     '''View of a link creation'''
     template_name = 'link_form.html'
