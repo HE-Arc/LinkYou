@@ -63,6 +63,8 @@ class CollectionCreateView(LoginRequiredMixin, CreateView):
         new_collection = collection_form.save(commit=False) # Uncommitted to add creator
         new_collection.user_it_belongs = self.request.user # Add creator (request user)
         new_collection.save()
+        collection_form.save_m2m()
+        return self.get_success_url()
 
     def get_success_url(self):
          return redirect('new_link', pk=self.object.id, slug=self.object.slug)
@@ -76,7 +78,7 @@ class CollectionDeleteView(LoginRequiredMixin, DeleteView):
     '''The delete view yeah'''
     pass
 
-
+# TODO: The same views as above for links here please and fill them of course
 class LinkCreateView(LoginRequiredMixin, CreateView):
     '''View of a link creation'''
     template_name = 'link_form.html'
@@ -88,6 +90,8 @@ class LinkCreateView(LoginRequiredMixin, CreateView):
         new_link = LinkForm.save(commit=False) # Uncommitted to add creator
         new_link.collection_it_belongs = c # Add creator (request user)
         new_link.save() # Final save
+        return self.get_success_url()
+
 
     def get_success_url(self):
         return redirect('dashboard')
