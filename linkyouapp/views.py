@@ -49,7 +49,6 @@ class CollectionDetailView(DetailView):
     model = Collection
     template_name = "collection.html"
 
-
     def get_queryset(self, *args, **kwargs):
         return Collection.objects.filter(pk=self.kwargs['pk'])
 
@@ -63,7 +62,9 @@ class CollectionCreateView(LoginRequiredMixin, CreateView):
         self.object = collection_form.save(commit=False) # Used by the success_url
         new_collection = collection_form.save(commit=False) # Uncommitted to add creator
         new_collection.user_it_belongs = self.request.user # Add creator (request user)
-        new_collection.save() # Final save
+        #new_collection.tags.add("ok")
+        new_collection.save()
+
         return redirect('new_link', pk=self.object.id, slug=self.object.slug)
 
     def get_success_url(self):

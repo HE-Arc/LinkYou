@@ -1,16 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
-from tagging.fields import TagField
 from django.utils.text import slugify
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from taggit.managers import TaggableManager
 
 class Collection(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField()
     image = models.ImageField(blank=True, upload_to='uploads/img/collections')
     private = models.BooleanField(default=False)
-    tags = TagField()
+    tags = TaggableManager()
     user_it_belongs = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -59,7 +59,6 @@ class Favorite(models.Model):
 class Link(models.Model):
     url= models.URLField(max_length=2000)
     text = models.CharField(max_length=255)
-    order_id = models.IntegerField()
     collection_it_belongs = models.ForeignKey(
         'Collection',
         on_delete=models.CASCADE,

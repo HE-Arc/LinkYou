@@ -9,4 +9,4 @@ class CollectionForm(forms.ModelForm):
 class LinkForm(forms.ModelForm):
     class Meta:
         model = Link
-        fields = {'url', 'text', 'order_id'}
+        fields = {'url', 'text'}
