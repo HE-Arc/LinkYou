@@ -6,7 +6,17 @@
 <div class="container">
 
 
+{% if collection.image %}
+
 <img src="{{collection.image.url}}" alt="Collection image">
+
+
+{% else %}
+
+no image todo put default here
+{% endif %}
+
+
 
 <h1>{{collection.name}}</h1>
 
