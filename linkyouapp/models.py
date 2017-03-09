@@ -22,7 +22,6 @@ class Collection(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        if not self.id:
             # Newly created object, so set slug
             self.slug = slugify(self.name)
             super(Collection, self).save(*args, **kwargs)
