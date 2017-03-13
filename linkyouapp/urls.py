@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^collection/delete/(?P<slug>[\w-]+)-(?P<pk>\w+)', views.CollectionDeleteView.as_view(), name='delete_collection'),
     url(r'^collection/edit/(?P<slug>[\w-]+)-(?P<pk>\w+)', views.CollectionUpdateView.as_view(), name='update_collection'),
     url(r'^(?P<pk>\w+)-(?P<slug>[\w-]+)/link/new', views.LinkCreateView.as_view(), name='new_link'),
+    url(r'^favorite/new', views.CreateFavoriteView.as_view(), name='new_favorite'),
     url(r'^login', auth_views.login, name='login'),
     url(r'^logout', auth_views.logout, name='logout'),
     url(r'^dashboard', views.UserDashboardView.as_view(), name='dashboard'),
