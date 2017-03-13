@@ -45,6 +45,11 @@ no image todo put default here
 
 {% endfor %}
 
+<form method="post">
+  {% csrf_token %}
+  <input type="hidden" name="collection" value="{{collection.pk}}"/>
+  <button type="submit">I like it !</button>
+</form>
 
 </div>
 

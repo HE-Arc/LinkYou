@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, DeleteView, ListView
-from .models import Collection, Link
+from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, DeleteView, ListView, View
+from .models import Collection, Link, Favorite
 from django.contrib.auth.models import User
 from .forms import CollectionForm, LinkForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -98,3 +98,11 @@ class LinkCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return redirect('dashboard')
+
+
+class CreateFavoriteView(LoginRequiredMixin, View):
+    '''Favorite some collection'''
+
+    def post(self, request):
+        Favorite.objects.create(collection=1,profile=request.user.profile)#request.POST.get('collection')
+        return redirect(request.META.get('HTTP_REFERER'))
