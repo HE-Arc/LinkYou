@@ -99,14 +99,11 @@ class LinkCreateView(LoginRequiredMixin, TemplateView):
         LinkFormSet = formset_factory(LinkForm)
         link_formset = LinkFormSet(request.POST)
         new_links = []
-        print(request.POST)
 
         if link_formset.is_valid():
             for link_form in link_formset:
                 text = link_form.cleaned_data.get('text')
                 url = link_form.cleaned_data.get('url')
-                print(text)
-                print(url)
 
                 if text and url:
                     new_links.append(Link(collection_it_belongs=Collection.objects.get(pk=self.kwargs['pk']), text=text, url=url))
@@ -118,7 +115,7 @@ class LinkCreateView(LoginRequiredMixin, TemplateView):
 
                     # And notify our users that it worked
                     messages.success(request, 'You have updated your profile.')
-                    return render(request, 'dashboard.html')
+                    return HttpResponseRedirect(reverse('collection_detail', kwargs={'pk':int(self.kwargs['pk']), 'slug': 'test'}))
 
             except IntegrityError: #If the transaction failed
                 messages.error(request, 'There was an error saving your profile.')
