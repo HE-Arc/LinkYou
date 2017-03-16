@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  {% block meta %}{% endblock %}
   <title>LinkYou</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="{% static 'css/linkyou.css' %}">
@@ -14,7 +16,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 </head>
 <body>
-
 
   <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
     <div class="container">
@@ -40,16 +41,10 @@
         <a href="{% url 'dashboard' %}" class="btn btn-primary my-2 mx-1 my-sm-0">Dashboard</a>
         <a href="{% url 'logout' %}" class="btn btn-outline-danger my-2 mx-1 my-sm-0">Logout</a>
         {% endif %}
-        <!-- <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form> -->
+
     </div>
   </div>
 </nav>
-
-<!-- Menu -->
-
 
 {% block content %}{% endblock %}
 
@@ -58,7 +53,6 @@
     <span class="text-muted text-center">Linkyou 2017 - Debrot / Ducommun / Roy | Powered by django</span>
   </div>
 </footer>
-
 
 {% block scripts %}{% endblock %}
 
