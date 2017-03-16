@@ -1,13 +1,31 @@
-{% extends 'base.html' %}
 
+{% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
 <form method="post">
   {% csrf_token %}
-  {{form.as_p}}
+  {{ link_formset.management_form }}
+  {% for form in link_formset %}
+  <div class="link-formset">
+    {{ form }}
+  </div>
+  {% endfor %}
   <button type="submit" class="btn btn-primary">Add</button>
 </form>
 
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'js/formset.js' %}"></script>
+<script>
+$('.link-formset').formset({
+  addText: 'add link',
+  deleteText: 'remove'
+});
+</script>
 
 {% endblock %}
