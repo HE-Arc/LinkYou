@@ -143,3 +143,20 @@ class CreateFavoriteView(LoginRequiredMixin, View):
         Favorite.objects.create(collection=Collection.objects.get(pk=int(request.POST.get('collection'))),profile=request.user.profile)
         messages.info(request, "Collection liked !")
         return redirect(request.META.get('HTTP_REFERER'))
+
+
+class LinkUpdateView(LoginRequiredMixin, UpdateView):
+    '''Update link view'''
+    model = Link
+    form_class = LinkForm
+    template_name = "link_form_simple.html"
+    success_url = reverse_lazy("dashboard")
+
+
+class LinkDeleteView(LoginRequiredMixin, DeleteView):
+    '''The delete form for the view'''
+    model = Link
+    template_name = "link_confirm_delete.html"
+
+    def get_success_url(self):
+        return reverse("collection_detail" , kwargs={"pk":self.object.collection_it_belongs.id, "slug":self.object.collection_it_belongs.slug})
