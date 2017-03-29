@@ -91,12 +91,23 @@ no image todo put default here
 
 
 {% endfor %}
-
-<form method="post">
+{% if canLike %}
+<form method="post" action="/favorite/new/">
   {% csrf_token %}
   <input type="hidden" name="collection" value="{{collection.pk}}"/>
   <button type="submit">I like it !</button>
 </form>
+{% endif %}
+
+
+{% if messages %}
+<div class="messages alert alert-info" role="alert">
+    {% for message in messages %}
+    <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+    {% endfor %}
+</div>
+{% endif %}
+
 
 <h2>As text</h2>
 

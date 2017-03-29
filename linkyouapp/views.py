@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, DeleteView, ListView, View
 from .models import Collection, Link, Favorite
 from django.contrib.auth.models import User
+from django.contrib import messages
 from .forms import CollectionForm, LinkForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
@@ -16,6 +17,9 @@ from django.contrib import messages
 class Home(TemplateView):
     '''LinkYou homepage with concept description and call to action'''
     template_name = 'home.html'
+
+    def best_collections(self):
+        return Favorite.objects.filter(private=False)
 
     def collections(self):
         return Collection.objects.filter(private=False)
@@ -42,6 +46,9 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
     def collections(self):
         return Collection.objects.filter(user_it_belongs=self.request.user)
 
+    def favorites(self):
+        return Favorite.objects.filter(profile=self.request.user.profile)
+
 class UserProfileView(TemplateView):
     template_name = "profile.html"
 
@@ -51,8 +58,15 @@ class CollectionDetailView(DetailView):
     model = Collection
     template_name = "collection.html"
 
-    def get_queryset(self, *args, **kwargs):
-        return Collection.objects.filter(pk=self.kwargs['pk'])
+    def get_context_data(self, **kwargs):
+        context = super(CollectionDetailView, self).get_context_data(**kwargs)
+        canLike = True
+        if self.object.user_it_belongs == self.request.user :
+            canLike = False
+        if Favorite.objects.filter(collection=self.object, profile=self.request.user.profile):
+            canLike = False
+        context['canLike']=canLike
+        return context
 
 class CollectionCreateView(LoginRequiredMixin, CreateView):
     '''The view of a collection creation'''
@@ -124,8 +138,10 @@ class LinkCreateView(LoginRequiredMixin, TemplateView):
 class CreateFavoriteView(LoginRequiredMixin, View):
     '''Favorite some collection'''
 
+    model = Favorite
     def post(self, request):
-        Favorite.objects.create(collection=1,profile=request.user.profile)#request.POST.get('collection')
+        Favorite.objects.create(collection=Collection.objects.get(pk=int(request.POST.get('collection'))),profile=request.user.profile)
+        messages.info(request, "Collection liked !")
         return redirect(request.META.get('HTTP_REFERER'))
 
 
