@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, DeleteView, ListView, View
 from .models import Collection, Link, Favorite
 from django.contrib.auth.models import User
+from django.contrib import messages
 from .forms import CollectionForm, LinkForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
@@ -134,4 +135,5 @@ class CreateFavoriteView(LoginRequiredMixin, View):
     model = Favorite
     def post(self, request):
         Favorite.objects.create(collection=Collection.objects.get(pk=int(request.POST.get('collection'))),profile=request.user.profile)
+        messages.info(request, "Collection liked !")
         return redirect(request.META.get('HTTP_REFERER'))
