@@ -18,6 +18,9 @@ class Home(TemplateView):
     '''LinkYou homepage with concept description and call to action'''
     template_name = 'home.html'
 
+    def best_collections(self):
+        return Favorite.objects.filter(private=False)
+
     def collections(self):
         return Collection.objects.filter(private=False)
 
@@ -42,6 +45,9 @@ class UserDashboardView(LoginRequiredMixin, TemplateView):
 
     def collections(self):
         return Collection.objects.filter(user_it_belongs=self.request.user)
+
+    def favorites(self):
+        return Favorite.objects.filter(profile=self.request.user.profile)
 
 class UserProfileView(TemplateView):
     template_name = "profile.html"
