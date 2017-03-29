@@ -47,21 +47,22 @@
 {% block content %}
 
 <div class="container">
+  {% if collection.image %}
+  <div class="col-md-12 img-header" style="background-image: url('{{collection.image.url}}');">
+    {% else %}
+  <div class="col-md-12">
+  {% endif %}
+  <div class="img-header-filter">
+    <h1>{{collection.name}}</h1>
+  </div>
+</div>
 
 
-{% if collection.image %}
+{% for tag in collection.tags.all %}
 
-<img src="{{collection.image.url}}" alt="Collection image">
+<span class="badge badge-default">{{tag.name}}</span>
 
-
-{% else %}
-
-no image todo put default here
-{% endif %}
-
-
-
-<h1>{{collection.name}}</h1>
+{% endfor %}
 
 
 <h3>The links in this collection</h3>
@@ -81,12 +82,8 @@ no image todo put default here
 
 <hr/>
 
-{% for tag in collection.tags.all %}
-
-<span class="badge badge-default">{{tag.name}}</span>
 
 
-{% endfor %}
 {% if canLike %}
 <form method="post" action="/favorite/new/">
   {% csrf_token %}
@@ -152,10 +149,5 @@ Tweet</a>
 <a href="mailto:?subject=My Linkyou Collection&body={{request.build_absolute_uri}}">Send mail</a>
 
 </div>
-
-
-
-
-
 
 {% endblock %}

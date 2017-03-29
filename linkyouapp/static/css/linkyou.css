@@ -36,3 +36,20 @@ body {
   background-color: rgba(0,0,0,.5);
   z-index:99;
 }
+
+.img-header{
+  height : 30vh;
+  background-size: cover;
+  background-position: 0px 50%;
+  padding: 0;
+}
+
+.img-header h1{
+  color: white;
+}
+
+.img-header-filter{
+  background-color: rgba(0,0,0,.6);
+  height: 100%;
+  padding: 20px;
+}
