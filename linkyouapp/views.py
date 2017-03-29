@@ -124,6 +124,7 @@ class LinkCreateView(LoginRequiredMixin, TemplateView):
 class CreateFavoriteView(LoginRequiredMixin, View):
     '''Favorite some collection'''
 
+    model = Favorite
     def post(self, request):
-        Favorite.objects.create(collection=1,profile=request.user.profile)#request.POST.get('collection')
+        Favorite.objects.create(collection=Collection.objects.get(pk=int(request.POST.get('collection'))),profile=request.user.profile)
         return redirect(request.META.get('HTTP_REFERER'))
