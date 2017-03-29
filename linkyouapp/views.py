@@ -51,8 +51,15 @@ class CollectionDetailView(DetailView):
     model = Collection
     template_name = "collection.html"
 
-    def get_queryset(self, *args, **kwargs):
-        return Collection.objects.filter(pk=self.kwargs['pk'])
+    def get_context_data(self, **kwargs):
+        context = super(CollectionDetailView, self).get_context_data(**kwargs)
+        canLike = True
+        if self.object.user_it_belongs == self.request.user :
+            canLike = False
+        if Favorite.objects.filter(collection=self.object, profile=self.request.user.profile):
+            canLike = False
+        context['canLike']=canLike
+        return context
 
 class CollectionCreateView(LoginRequiredMixin, CreateView):
     '''The view of a collection creation'''
