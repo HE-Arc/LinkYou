@@ -6,9 +6,13 @@
 <div class="container">
   <h1>Hello {{request.user.username}}</h1>
 
+  <h2>Your collections</h2>
+  <br/>
   <a href="{% url 'new_collection' %}" type="button" class="btn btn-primary">Add new collection</a>
 
   <br/>
+
+
 
 <ul class="list-group">
   {% for collection in view.collections %}
@@ -20,6 +24,19 @@
      <a href="{% url "update_collection" collection.slug collection.pk %}">Update</a> &nbsp;
    </li>
 
+  {% endfor %}
+</ul>
+
+<br/>
+
+<h2> The collections you liked</h2>
+<ul class="list-group">
+  {% for favorite in view.favorites %}
+
+  <li class="list-group-item">
+    <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
+    <a>Created by {{favorite.collection.user_it_belongs}}</a> &nbsp;
+  </li>
   {% endfor %}
 </ul>
 
