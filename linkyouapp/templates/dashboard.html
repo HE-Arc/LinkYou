@@ -15,7 +15,6 @@
 
    <li class="list-group-item">
      <a href="{% url "collection_detail" collection.slug collection.pk %}">{{ collection.name }}</a> &nbsp;
-     <a href="{% url "new_link" collection.pk collection.slug %}">Add link</a> &nbsp;
      <a href="{% url "delete_collection" collection.slug collection.pk %}">Delete</a> &nbsp;
      <a href="{% url "update_collection" collection.slug collection.pk %}">Update</a> &nbsp;
    </li>
