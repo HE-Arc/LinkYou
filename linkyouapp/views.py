@@ -19,7 +19,7 @@ class Home(TemplateView):
     template_name = 'home.html'
 
     def best_collections(self):
-        return Favorite.objects.filter(private=False)
+        return Favorite.objects.all()#filter(private=False)
 
     def collections(self):
         return Collection.objects.filter(private=False)
