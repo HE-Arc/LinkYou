@@ -39,6 +39,7 @@ body {
 
 .img-header{
   max-height : 30vh;
+  height : 30vh;
   background-size: cover;
   background-position: 0px 50%;
   padding: 0;
