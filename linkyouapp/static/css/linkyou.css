@@ -54,3 +54,8 @@ body {
   height: 100%;
   padding: 20px;
 }
+
+.card-img{
+  height: 40vh;
+  max-height: 40vh;
+}

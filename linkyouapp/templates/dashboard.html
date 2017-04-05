@@ -8,15 +8,15 @@
 
   <h2>Your collections</h2>
   <br/>
-  <a href="{% url 'new_collection' %}" type="button" class="btn btn-primary">Add new collection</a>
+  <a href="{% url 'new_collection' %}" type="button" class="btn btn-success">Add new collection</a>
 
 <ul class="list-group">
   {% for collection in view.collections %}
 
    <li class="list-group-item">
      <a href="{% url "collection_detail" collection.slug collection.pk %}">{{ collection.name }}</a> &nbsp;
-     <a href="{% url "delete_collection" collection.slug collection.pk %}">Delete</a> &nbsp;
-     <a href="{% url "update_collection" collection.slug collection.pk %}">Update</a> &nbsp;
+     <a href="{% url "delete_collection" collection.slug collection.pk %}" type="button" class="btn btn-danger">Delete</a> &nbsp;
+     <a href="{% url "update_collection" collection.slug collection.pk %}" type="button" class="btn btn-info">Update</a> &nbsp;
    </li>
 
   {% endfor %}
@@ -29,6 +29,7 @@
   <li class="list-group-item">
     <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
     <a>Created by {{favorite.collection.user_it_belongs}}</a> &nbsp;
+    <a href="{% url "delete_favorite" favorite.pk %}" type="button" class="btn btn-danger">Delete</a> &nbsp;
   </li>
   {% endfor %}
 </ul>

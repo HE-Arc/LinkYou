@@ -23,8 +23,10 @@
     <div class="col-md-12">
       <h2 class="case-title">Featured collections</h2>
       {% for bc in view.best_collections.all %}
-      <a href="{% url "collection_detail" bc.collection.slug bc.collection.pk %}">{{bc.collection}}</a>
-      <p>Favorite by : {{bc.profile}}</p>
+
+          <a href="{% url "collection_detail" bc.collection.slug bc.collection.pk %}">{{bc.collection}}</a>
+          <p>By {{bc.collection.user_it_belongs}}</p>
+
       {%endfor%}
     </div>
 
@@ -47,37 +49,20 @@
   <div class="row pb-5">
     <div class="col-md-6">
 
-      <h2 class="case-title">Last collectors</h2>
-
-      <div class="list-group">
-        {% for i in "xxxxx" %}
-        <a href="#" class="list-group-item list-group-item-action flex-row align-content-center">
-          <div class="d-inline-flex w-20">
-            <img src="http://www.wallstreetotc.com/wp-content/uploads/2014/10/facebook-anonymous-app.jpg" width="50" class="rounded-circle m-1 mr-3">
-          </div>
-          <div class="d-inline-flex w-80 justify-content-between">
-            <h5 class="mb-1">ishydoe{{forloop.counter}}</h5>
-          </div>
-        </a>
-        {% endfor %}
-      </div>
-
-    </div>
-    <div class="col-md-6">
-
       <h2 class="case-title">Last collections</h2>
-
       <div class="row">
-        {% for x in "xxxx" %}
+        {% for c in view.collections %}
         <div class="col-md-6 mb-4">
           <div class="card card-inverse">
-            <img class="card-img" src="http://lorempicsum.com/futurama/627/200/3" alt="Card image">
+            <a href="{% url "collection_detail" c.slug c.pk%}">
+            <img class="card-img" src="{{c.image.url}}" alt="Card image">
             <div class="card-img-filter">
               <div class="card-img-overlay">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text d-flex">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <h4 class="card-title">{{c.name}}</h4>
+                <p class="card-text d-flex">By {{c.user_it_belongs}}</p>
               </div>
             </div>
+          </a>
           </div>
         </div>
         {% endfor %}

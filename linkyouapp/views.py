@@ -61,11 +61,14 @@ class CollectionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(CollectionDetailView, self).get_context_data(**kwargs)
         canLike = True
+        canModify = False
         if self.object.user_it_belongs == self.request.user :
             canLike = False
+            canModify = True
         if Favorite.objects.filter(collection=self.object, profile=self.request.user.profile):
             canLike = False
         context['canLike']=canLike
+        context['canModify'] = canModify
         return context
 
 class CollectionCreateView(LoginRequiredMixin, CreateView):
@@ -143,6 +146,13 @@ class CreateFavoriteView(LoginRequiredMixin, View):
         Favorite.objects.create(collection=Collection.objects.get(pk=int(request.POST.get('collection'))),profile=request.user.profile)
         messages.info(request, "Collection liked !")
         return redirect(request.META.get('HTTP_REFERER'))
+
+class DeleteFavoriteView(LoginRequiredMixin, DeleteView):
+    '''Delete a Favorite'''
+    model = Favorite
+
+    def get_success_url(self):
+        return reverse("dashboard")
 
 
 class LinkUpdateView(LoginRequiredMixin, UpdateView):
