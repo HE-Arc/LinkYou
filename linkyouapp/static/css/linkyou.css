@@ -26,6 +26,19 @@
   text-decoration: none;
 }
 
+.coll-case h4{
+  font-weight: 800;
+  letter-spacing: -.08px;
+  margin-bottom: 0;
+}
+
+.coll-case hr{
+  border: 2px solid #CCC;
+  width: 20%;
+  display: inline-block;
+  margin: 0;
+}
+
 .coll-case .text-muted{
   color: #f8f8f8;
 }
