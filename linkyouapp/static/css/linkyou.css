@@ -1,3 +1,44 @@
+.img-bg{
+  background-size: cover;
+  background-position: 0% 50%;
+  min-height: 95vh;
+}
+
+.coll-deck{
+  -webkit-column-count:3;
+       -moz-column-count:3;
+       column-count:3;
+}
+
+.filter-coll{
+  background-color: rgba(0,0,0,.5);
+  height: 100%;
+}
+
+.coll-case{
+    min-height: 25vh;
+    background-size: cover;
+    color: #F8F8F8;
+}
+
+.coll-case a{
+  color: #f8f8f8;
+  text-decoration: none;
+}
+
+.coll-case .text-muted{
+  color: #f8f8f8;
+}
+
+.bg-filter{
+  background-color: rgba(0,0,0,.5);
+  min-height: 95vh;
+  color: #f8f8f8;
+}
+
+.padded{
+  padding-top: 20vh;
+}
 
 .case-title{
   letter-spacing: -.05em;

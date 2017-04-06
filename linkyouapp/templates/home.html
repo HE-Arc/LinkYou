@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block content %}
 
 
-<div class="container-fluid p-0 bg-faded">
-  <div class="container">
-    <div class="row py-5">
-      <div class="col-md-12 py-5">
-        <h1 class="display-1" style="font-weight: 800; letter-spacing: -.1em;">linkyou</h1>
+<div class="container-fluid p-0 img-bg" style="background-image:url('{% static 'home-bg.jpeg' %}')">
+  <div class="bg-filter">
+    <div class="row">
+      <div class="container padded">
+        <h1 class="display-1" style="font-weight: 800; letter-spacing: -.07em;">linkyou</h1>
         <p class="lead">A nice way to share collections of web ressources.</p>
-        <a href="{% url 'registration_register' %}" type="button" class="btn btn-primary">Sign up</a>
-        <a href="{% url 'login' %}" type="button" class="btn btn-secondary">Log in</a>
+        <a href="{% url 'discover' %}" type="button" class="btn btn-outline-secondary btn-lg">Discover collections</a>
       </div>
     </div>
   </div>
@@ -19,56 +20,41 @@
 
 <div class="container ">
 
-  <div class="row my-5">
-    <div class="col-md-12">
-      <h2 class="case-title">Featured collections</h2>
-      {% for bc in view.best_collections.all %}
+  <div class="row py-4">
 
-          <a href="{% url "collection_detail" bc.collection.slug bc.collection.pk %}">{{bc.collection}}</a>
-          <p>By {{bc.collection.user_it_belongs}}</p>
+    <div class="container">
+      <div class="card-deck py-3">
 
-      {%endfor%}
-    </div>
+          {% for c in view.collections|slice:":6" %}
 
-
-    {% for c in collections|slice:"3" %}
-    <div class="col-md-4">
-      <div class="card card-inverse">
-        <img class="card-img" src="http://lorempicsum.com/futurama/255/255/2" alt="Card image">
-        <div class="card-img-filter">
-          <div class="card-img-overlay">
-            <h4 class="card-title">{{c.name}}</h4>
-            <p class="card-text d-flex">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-
-  <div class="row pb-5">
-    <div class="col-md-6">
-
-      <h2 class="case-title">Last collections</h2>
-      <div class="row">
-        {% for c in view.collections %}
-        <div class="col-md-6 mb-4">
-          <div class="card card-inverse">
-            <a href="{% url "collection_detail" c.slug c.pk%}">
-            <!-- <img class="card-img" src="" alt="Card image"> -->
-            <div class="card-img-filter">
-              <div class="card-img-overlay">
-                <h4 class="card-title">{{c.name}}</h4>
-                <p class="card-text d-flex">By {{c.user_it_belongs}}</p>
-              </div>
+            {% if c.image %}
+            <div class="card coll-case" style="background-image:url('{{c.image.url}}')">
+            {% else %}
+            <div class="card coll-case">
+            {% endif %}
+            <a class="filter-coll" href="{% url "collection_detail" c.slug c.pk%}">
+            <div class="card-block">
+              <h4 class="card-title">{{ c.name }}</h4>
+              <p class="card-text"><small>by {{c.user_it_belongs.username}}</small></p>
             </div>
           </a>
           </div>
+
+
+          {% if forloop.counter|divisibleby:3 and forloop.counter0 != 0 %}
+          <!-- ICI END CARD DECK -->
         </div>
+         <div class="card-deck py-3">
+        {% endif %}
+
         {% endfor %}
+
+
+
+
+
       </div>
     </div>
-
   </div>
 </div>
 
