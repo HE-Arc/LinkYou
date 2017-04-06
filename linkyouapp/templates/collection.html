@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+  <meta property="og:url"           content="{{request.build_absolute_uri}}" />
+  <meta property="og:type"          content="website" />
+  <meta property="og:title"         content="Linkyou Collection - {{collection.name}}" />
+  <meta property="og:description"   content="A LinkYou online ressources colleciton." />
+
+  {% if collection.image %}
+  <meta property="og:image"         content="{{collection.image.url}}" />
+  {% else %}
+  <meta property="og:image"         content="http://lorempicsum.com/futurama/350/200/1" />
+  {% endif %}
+
+{% endblock %}
+
+
+{% block scripts %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=450415271956068";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+<script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  {% if collection.image %}
+  <div class="col-md-12 img-header" style="background-image: url('{{collection.image.url}}');">
+    {% else %}
+  <div class="col-md-12">
+  {% endif %}
+  <div class="img-header-filter">
+    <h1>{{collection.name}}</h1>
+  </div>
+</div>
+
+
+{% for tag in collection.tags.all %}
+
+<span class="badge badge-default">{{tag.name}}</span>
+
+{% endfor %}
+
+
+<h3>The links in this collection</h3>
+
+
+<ul class="list-group">
+
+{% for l in collection.link_set.all %}
+
+<li class="list-group-item">
+  <img src="http://www.google.com/s2/favicons?domain={{l.url}}" alt="favicon">&nbsp;
+  <a href="{{l.url}}" target="_blank">{{l.text}}</a> &nbsp;
+  {% if canModify %}
+  <a href="{% url "delete_link" l.pk %}" type="button" class="btn btn-danger">Delete</a> &nbsp;
+  <a href="{% url "update_link" l.pk %}" type="button" class="btn btn-info">Update</a> &nbsp;
+  {% endif %}
+</li>
+
+{% endfor %}
+</ul>
+{% if canModify %}
+<hr/>
+<a href="{% url "new_link" collection.pk collection.slug %}" type="button" class="btn btn-success">Add link</a> &nbsp;
+<hr/>
+{% endif %}
+
+
+
+{% if canLike %}
+<form method="post" action="/favorite/new/">
+  {% csrf_token %}
+  <input type="hidden" name="collection" value="{{collection.pk}}"/>
+  <button type="submit">I like it !</button>
+</form>
+{% endif %}
+
+
+{% if messages %}
+<div class="messages alert alert-info" role="alert">
+    {% for message in messages %}
+    <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+<h2>As text</h2>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Get as text
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        {% for l in collection.link_set.all %}
+          {{l.url}};{{l.text}}<br/>
+        {% endfor %}
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Share</h2>
+
+<div class="fb-share-button" data-href="{{request.build_absolute_uri}}" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Partager</a></div>
+
+<a class="twitter-share-button"
+  href="https://twitter.com/intent/tweet?text=My%20Linkyou%20Collection" data-size="large">
+Tweet</a>
+
+<a href="mailto:?subject=My Linkyou Collection&body={{request.build_absolute_uri}}">Send mail</a>
+
+</div>
+
+{% endblock %}
