@@ -19,7 +19,7 @@ class Home(TemplateView):
     template_name = 'home.html'
 
     def best_collections(self):
-        return Favorite.objects.all()#filter(private=False)
+        return Favorite.objects.filter()#filter(private=False)
 
     def collections(self):
         return Collection.objects.filter(private=False)
@@ -65,7 +65,9 @@ class CollectionDetailView(DetailView):
         if self.object.user_it_belongs == self.request.user :
             canLike = False
             canModify = True
-        if Favorite.objects.filter(collection=self.object, profile=self.request.user.profile):
+        if not self.request.user.is_authenticated:
+            canLike = False
+        elif Favorite.objects.filter(collection=self.object, profile=self.request.user.profile):
             canLike = False
         context['canLike']=canLike
         context['canModify'] = canModify
