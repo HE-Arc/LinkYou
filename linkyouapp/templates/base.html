@@ -9,6 +9,7 @@
   <title>LinkYou</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="{% static 'css/linkyou.css' %}">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
   {% block styles %}{% endblock %}
 
@@ -43,19 +44,19 @@
         <a href="{% url 'logout' %}" class="btn btn-outline-danger my-2 mx-1 my-sm-0">Logout</a>
         {% endif %}
 
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-{% block content %}{% endblock %}
+  {% block content %}{% endblock %}
 
-<footer class="footer">
-  <div class="container">
-    <span class="text-muted text-center">Linkyou 2017 - Debrot / Ducommun / Roy | Powered by django</span>
-  </div>
-</footer>
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted text-center">Linkyou 2017 - Debrot / Ducommun / Roy | Powered by django</span>
+    </div>
+  </footer>
 
-{% block scripts %}{% endblock %}
+  {% block scripts %}{% endblock %}
 
 </body>
 </html>

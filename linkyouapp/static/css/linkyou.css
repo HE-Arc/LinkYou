@@ -1,3 +1,5 @@
+
+
 .img-bg{
   background-size: cover;
   background-position: 0% 50%;
@@ -32,14 +34,14 @@
   margin-bottom: 0;
 }
 
-.coll-case hr{
+.coll-case hr, .img-header-filter hr{
   border: 2px solid #CCC;
   width: 20%;
   display: inline-block;
   margin: 0;
 }
 
-.coll-case .text-muted{
+.coll-case small, .img-header-filter small{
   color: #f8f8f8;
 }
 
@@ -107,6 +109,11 @@ body {
   background-color: rgba(0,0,0,.6);
   height: 100%;
   padding: 20px;
+  margin-bottom: 4vh;
+}
+
+.img-header-filter h1{
+  margin-top: 15vh;
 }
 
 .card-img{
