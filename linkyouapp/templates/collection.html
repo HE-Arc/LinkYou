@@ -82,13 +82,9 @@
           <!-- Button trigger modal -->
           <div>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Get as text</button>
-            <a class="btn btn-primary" href="mailto:?subject=My Linkyou Collection&body={{request.build_absolute_uri}}"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;Send by mail</a>
-            <div class="fb-share-button" data-href="{{request.build_absolute_uri}}" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Partager</a></div>
 
-            <a class="twitter-share-button"
-            href="https://twitter.com/intent/tweet?text=My%20Linkyou%20Collection" data-size="large">
-            Tweet</a>
-
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myShareModal"><i class="fa fa-share-alt" aria-hidden="true"></i>
+&nbsp;Share</button>
           </div>
         </div>
 
@@ -101,8 +97,8 @@
             </div>
             {% if canModify %}
             <div>
-              <a href="{% url "delete_link" l.pk %}" type="button" class="btn btn-danger float-right mx-1">Delete</a>
-              <a href="{% url "update_link" l.pk %}" type="button" class="btn btn-info float-right">Update</a>
+              <a href="{% url "delete_link" l.pk %}" type="button" class="btn btn-default float-right mx-1">Delete</a>
+              <a href="{% url "update_link" l.pk %}" type="button" class="btn btn-default float-right">Update</a>
             </div>
             {% endif %}
           </li>
@@ -143,11 +139,43 @@
           </div>
         </div>
 
-        {% for tag in collection.tags.all %}
-        <span class="badge badge-default p-2">{{tag.name}}</span>
-        {% endfor %}
+        <!-- Modal get as text -->
+        <div class="modal fade" id="myShareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Share collection</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <a class="btn btn-primary" href="mailto:?subject=My Linkyou Collection&body={{request.build_absolute_uri}}"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;Send by mail</a>
+
+                <div class="btn btn-default" data-href="{{request.build_absolute_uri}}" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Partager</a></div>
+
+                <a class="btn btn-primary"
+                href="https://twitter.com/intent/tweet?text=My%20Linkyou%20Collection" data-size="large">
+                Tweet</a>
+
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="py-3">
+          {% for tag in collection.tags.all %}
+          <span class="badge badge-default p-2">{{tag.name}}</span>
+          {% endfor %}
+        </div>
 
       </div>
-    </div>
 
-    {% endblock %}
+
+      {% endblock %}
