@@ -3,11 +3,42 @@
 
 {% block content %}
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{form.as_p}}
-  <button type="submit" class="btn btn-primary">Add</button>
-</form>
+<div class="container py-4">
 
+  <div class="card">
+    <div class="card-block">
+
+      <h1>New collection</h1>
+      <hr/>
+
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label>Name</label>
+          {{form.name}}
+        </div>
+
+        <div class="form-group">
+          <label>Illustration</label>
+          {{form.image}}
+        </div>
+
+        <div class="form-group">
+          <label>Tags</label>
+          {{form.tags}}
+        </div>
+
+        <div class="form-group">
+          <label>Private</label>
+          {{form.private}}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create collection</button>
+      </form>
+
+    </div>
+  </div>
+</div>
 
 {% endblock %}

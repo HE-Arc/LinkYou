@@ -133,7 +133,7 @@ class LinkCreateView(LoginRequiredMixin, TemplateView):
                     Link.objects.bulk_create(new_links)
 
                     # And notify our users that it worked
-                    messages.success(request, 'You have updated your profile.')
+                    messages.success(request, 'Collection successfully updated !')
                     return HttpResponseRedirect(reverse('collection_detail', kwargs={'pk':int(self.kwargs['pk']), 'slug': 'test'}))
 
             except IntegrityError: #If the transaction failed

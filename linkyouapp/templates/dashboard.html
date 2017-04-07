@@ -3,36 +3,37 @@
 
 {% block content %}
 
-<div class="container">
-  <h1>Hello {{request.user.username}}</h1>
-
+<div class="container py-3">
   <h2>Your collections</h2>
-  <br/>
   <a href="{% url 'new_collection' %}" type="button" class="btn btn-success">Add new collection</a>
 
-<ul class="list-group">
-  {% for collection in view.collections %}
+  <ul class="list-group py-3">
+    {% for collection in view.collections %}
 
-   <li class="list-group-item">
-     <a href="{% url "collection_detail" collection.slug collection.pk %}">{{ collection.name }}</a> &nbsp;
-     <a href="{% url "delete_collection" collection.slug collection.pk %}" type="button" class="btn btn-danger">Delete</a> &nbsp;
-     <a href="{% url "update_collection" collection.slug collection.pk %}" type="button" class="btn btn-info">Update</a> &nbsp;
-   </li>
+    <li class="list-group-item justify-content-between">
+      <a href="{% url "collection_detail" collection.slug collection.pk %}">{{ collection.name }}</a> &nbsp;
+      <div>
+        <a href="{% url "delete_collection" collection.slug collection.pk %}" type="button" class="btn btn-default">Delete</a> &nbsp;
+        <a href="{% url "update_collection" collection.slug collection.pk %}" type="button" class="btn btn-default">Update</a> &nbsp;
+      </div>
+    </li>
 
-  {% endfor %}
-</ul>
+    {% endfor %}
+  </ul>
 
-<h2> The collections you liked</h2>
-<ul class="list-group">
-  {% for favorite in view.favorites %}
+  <h2> The collections you liked</h2>
+  <ul class="list-group">
+    {% for favorite in view.favorites %}
 
-  <li class="list-group-item">
-    <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
-    <a>Created by {{favorite.collection.user_it_belongs}}</a> &nbsp;
-    <a href="{% url "delete_favorite" favorite.pk %}" type="button" class="btn btn-danger">Delete</a> &nbsp;
-  </li>
-  {% endfor %}
-</ul>
+    <li class="list-group-item justify-content-between">
+      <div>
+        <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
+        <small><a class="text-muted">created by {{favorite.collection.user_it_belongs}}</a></small>
+      </div>
+      <a href="{% url "delete_favorite" favorite.pk %}" type="button" class="btn btn-default">Delete</a>
+    </li>
+    {% endfor %}
+  </ul>
 
 </div>
 
