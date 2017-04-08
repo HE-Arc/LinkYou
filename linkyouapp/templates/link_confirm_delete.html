@@ -1,5 +1,22 @@
-<form action="" method="post">
-  {% csrf_token %}
-    <p>Are you sure you want to delete the link : "{{ link.text }} ({{ link.url }})"?</p>
-    <input type="submit" value="Confirm" />
-</form>
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="card my-4">
+    <div class="card-block">
+
+      <form action="" method="post">
+        {% csrf_token %}
+          <div class="alert alert-danger" role="alert">
+            Are you sure you want to delete the link : "{{ link.text }} ({{ link.url }})"?
+          </div>
+          <input type="submit" value="Confirm" />
+      </form>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

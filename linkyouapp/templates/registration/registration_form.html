@@ -1,13 +1,29 @@
 {% extends 'base.html' %}
 
-
+{% load app_filter %}
 {% block content %}
 
-<form method="post">
-  {% csrf_token %}
-  {{form.as_p}}
-  <button type="submit" class="btn btn-primary">Sign up</button>
-</form>
 
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col col-md-5 card mt-5">
+      <div class="card-block">
+        <h2>Sign up</h2>
+        <form method="post">
+          {% csrf_token %}
+          <label>Username</label>
+          {{form.username|addcss:"form-control"}}
+          <label>Email</label>
+          {{form.email|addcss:"form-control"}}
+          <label>Password</label>
+          {{form.password1|addcss:"form-control"}}
+          <label>Repeat password</label>
+          {{form.password2|addcss:"form-control"}}
+          <button type="submit" class="btn btn-primary my-4">Go !</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

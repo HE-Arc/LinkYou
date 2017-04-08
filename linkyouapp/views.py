@@ -19,7 +19,7 @@ class Home(TemplateView):
     template_name = 'home.html'
 
     def best_collections(self):
-        return Favorite.objects.all()#filter(private=False)
+        return Favorite.objects.filter()#filter(private=False)
 
     def collections(self):
         return Collection.objects.filter(private=False)
@@ -30,12 +30,18 @@ class About(TemplateView):
     def get(self, request):
         return render(request, "about.html")
 
-class Discover(TemplateView):
+class Discover(ListView):
     '''The public page to discover users' collections'''
     template_name = 'discover.html'
+    model = Collection
+    context_object_name = 'collections'
+    collections = []
 
-    def collections(self):
-        return Collection.objects.filter(private=False)
+    def get_queryset(self):
+        if self.request.GET.get('q'):
+            return Collection.objects.filter(tags__name__in=self.request.GET.get('q').split())
+        else:
+            return Collection.objects.filter(private=False)
 
 
 # User related views
@@ -65,7 +71,9 @@ class CollectionDetailView(DetailView):
         if self.object.user_it_belongs == self.request.user :
             canLike = False
             canModify = True
-        if Favorite.objects.filter(collection=self.object, profile=self.request.user.profile):
+        if not self.request.user.is_authenticated:
+            canLike = False
+        elif Favorite.objects.filter(collection=self.object, profile=self.request.user.profile):
             canLike = False
         context['canLike']=canLike
         context['canModify'] = canModify
@@ -131,7 +139,7 @@ class LinkCreateView(LoginRequiredMixin, TemplateView):
                     Link.objects.bulk_create(new_links)
 
                     # And notify our users that it worked
-                    messages.success(request, 'You have updated your profile.')
+                    messages.success(request, 'Collection successfully updated !')
                     return HttpResponseRedirect(reverse('collection_detail', kwargs={'pk':int(self.kwargs['pk']), 'slug': 'test'}))
 
             except IntegrityError: #If the transaction failed

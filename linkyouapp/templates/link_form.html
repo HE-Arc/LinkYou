@@ -1,19 +1,39 @@
 
 {% extends 'base.html' %}
 {% load static %}
+{% load app_filter %}
 
 {% block content %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ link_formset.management_form }}
-  {% for form in link_formset %}
-  <div class="link-formset">
-    {{ form }}
+
+<div class="container">
+
+  <div class="card my-4">
+    <div class="card-block">
+
+      <h1>Add links</h1>
+      <hr/>
+
+      <form method="post" class="form-inline">
+        {% csrf_token %}
+        {{ link_formset.management_form }}
+        {% for form in link_formset %}
+        <div class="link-formset my-1">
+          {{ form.text|addcss:"form-control"}}
+          {{ form.url|addcss:"form-control" }}
+        </div>
+        {% endfor %}
+
+          <div class="col-md-12 my-4">
+            <button type="submit" class="btn btn-primary">Save those great links</button>
+          </div>
+
+
+      </form>
+
+    </div>
   </div>
-  {% endfor %}
-  <button type="submit" class="btn btn-primary">Add</button>
-</form>
+</div>
 
 {% endblock %}
 
@@ -22,8 +42,8 @@
 <script src="{% static 'js/formset.js' %}"></script>
 <script>
 $('.link-formset').formset({
-  addText: 'add link',
-  deleteText: 'remove'
+  addText: '<button class="btn btn-primary btn-sm mx-1">Add row</button>',
+  deleteText: '<button class="btn btn-sm">Delete</button>'
 });
 </script>
 
