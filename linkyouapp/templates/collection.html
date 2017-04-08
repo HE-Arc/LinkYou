@@ -42,6 +42,27 @@
 
   return t;
 }(document, "script", "twitter-wjs"));</script>
+
+<script>
+
+function openInNewTab(url) {
+  var win = window.open(url, '_blank');
+  win.focus();
+}
+
+function openAll(){
+
+{% for l in collection.link_set.all %}
+
+openInNewTab('{{l.url}}');
+
+{% endfor %}
+
+
+}
+
+</script>
+
 {% endblock %}
 
 {% block content %}
@@ -55,7 +76,18 @@
     <div class="img-header-filter">
       <div class="container d-flex justify-content-between">
         <div>
-          <h1>{{collection.name}}</h1>
+          <div class="title-line d-flex justify-content-left">
+            <h1>{{collection.name}}</h1>
+            {% if canLike %}
+            <div>
+              <form method="post" action="/favorite/new/">
+                {% csrf_token %}
+                <input type="hidden" name="collection" value="{{collection.pk}}"/>
+                <button class="btn btn-outline-secondary p-2 ml-4 mt-1" type="submit">I like it !</button>
+              </form>
+            </div>
+            {% endif %}
+          </div>
           <hr/>
           <p class="card-text"><small>a collection by {{collection.user_it_belongs.username}}</small></p>
         </div>
@@ -82,100 +114,94 @@
           <!-- Button trigger modal -->
           <div>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Get as text</button>
-
+            <button type="button" class="btn btn-primary" onclick="openAll()"><i class="fa fa-file-text-o" aria-hidden="true"></i>&nbsp;Open all links</button>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myShareModal"><i class="fa fa-share-alt" aria-hidden="true"></i>
-&nbsp;Share</button>
+              &nbsp;Share</button>
+            </div>
           </div>
-        </div>
 
-        <ul class="list-group links-list py-2">
-          {% for l in collection.link_set.all %}
-          <li class="list-group-item justify-content-between">
-            <div>
-              <img src="http://www.google.com/s2/favicons?domain={{l.url}}" alt="fav">&nbsp;
-              <a href="{{l.url}}" target="_blank">{{l.text}}</a> &nbsp;
-            </div>
-            {% if canModify %}
-            <div>
-              <a href="{% url "delete_link" l.pk %}" type="button" class="btn btn-default float-right mx-1">Delete</a>
-              <a href="{% url "update_link" l.pk %}" type="button" class="btn btn-default float-right">Update</a>
-            </div>
-            {% endif %}
-          </li>
-          {% endfor %}
-        </ul>
-
-
-        {% if canLike %}
-        <form method="post" action="/favorite/new/">
-          {% csrf_token %}
-          <input type="hidden" name="collection" value="{{collection.pk}}"/>
-          <button type="submit">I like it !</button>
-        </form>
-        {% endif %}
-
-        <!-- Modal get as text -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+          <ul class="list-group links-list py-2">
+            {% for l in collection.link_set.all %}
+            <li class="list-group-item justify-content-between">
+              <div>
+                <img src="http://www.google.com/s2/favicons?domain={{l.url}}" alt="fav">&nbsp;
+                <a href="{{l.url}}" target="_blank">{{l.text}}</a> &nbsp;
               </div>
-              <div class="modal-body">
-
-                {% for l in collection.link_set.all %}
-                {{l.url}};{{l.text}}<br/>
-                {% endfor %}
-
+              {% if canModify %}
+              <div>
+                <a href="{% url "delete_link" l.pk %}" type="button" class="btn btn-default float-right mx-1">Delete</a>
+                <a href="{% url "update_link" l.pk %}" type="button" class="btn btn-default float-right">Update</a>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+
+
+
+
+          <!-- Modal get as text -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                  {% for l in collection.link_set.all %}
+                  {{l.url}};{{l.text}}<br/>
+                  {% endfor %}
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Modal get as text -->
-        <div class="modal fade" id="myShareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Share collection</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
+          <!-- Modal get as text -->
+          <div class="modal fade" id="myShareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Share collection</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
 
-                <a class="btn btn-primary" href="mailto:?subject=My Linkyou Collection&body={{request.build_absolute_uri}}"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;Send by mail</a>
+                  <a class="btn btn-primary" href="mailto:?subject=My Linkyou Collection&body={{request.build_absolute_uri}}"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;Send by mail</a>
 
-                <div class="btn btn-default" data-href="{{request.build_absolute_uri}}" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Partager</a></div>
+                  <div class="btn btn-default" data-href="{{request.build_absolute_uri}}" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Partager</a></div>
 
-                <a class="btn btn-primary"
-                href="https://twitter.com/intent/tweet?text=My%20Linkyou%20Collection" data-size="large">
-                Tweet</a>
+                  <a class="btn btn-primary"
+                  href="https://twitter.com/intent/tweet?text=My%20Linkyou%20Collection" data-size="large">
+                  Tweet</a>
 
 
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
               </div>
             </div>
           </div>
+
+          <div class="py-3">
+            {% for tag in collection.tags.all %}
+            <span class="badge badge-default p-2">{{tag.name}}</span>
+            {% endfor %}
+          </div>
+
         </div>
 
-        <div class="py-3">
-          {% for tag in collection.tags.all %}
-          <span class="badge badge-default p-2">{{tag.name}}</span>
-          {% endfor %}
-        </div>
 
-      </div>
-
-
-      {% endblock %}
+        {% endblock %}

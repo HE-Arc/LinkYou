@@ -1,4 +1,7 @@
-
+.big-icon{
+  font-size: 6em;
+  color: #ccc;
+}
 
 .img-bg{
   background-size: cover;
@@ -115,7 +118,7 @@ body {
   margin-bottom: 4vh;
 }
 
-.img-header-filter h1{
+.img-header-filter .title-line{
   margin-top: 15vh;
 }
 

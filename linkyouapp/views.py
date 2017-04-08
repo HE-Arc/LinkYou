@@ -30,12 +30,18 @@ class About(TemplateView):
     def get(self, request):
         return render(request, "about.html")
 
-class Discover(TemplateView):
+class Discover(ListView):
     '''The public page to discover users' collections'''
     template_name = 'discover.html'
+    model = Collection
+    context_object_name = 'collections'
+    collections = []
 
-    def collections(self):
-        return Collection.objects.filter(private=False)
+    def get_queryset(self):
+        if self.request.GET.get('q'):
+            return Collection.objects.filter(tags__name__in=self.request.GET.get('q').split())
+        else:
+            return Collection.objects.filter(private=False)
 
 
 # User related views

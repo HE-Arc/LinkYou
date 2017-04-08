@@ -21,23 +21,59 @@
           <a href="{% url "update_collection" collection.slug collection.pk %}" type="button" class="btn btn-default">Update</a> &nbsp;
         </div>
       </li>
-      {% endfor %}
-    </ul>
+      {% empty %}
 
-    <h2 class="mt-4 py-3">Collections you liked</h2>
-    <ul class="list-group">
-      {% for favorite in view.favorites %}
+      <div class="card text-center">
+        <div class="card-block">
+          <span class="big-icon">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </span>
 
-      <li class="list-group-item justify-content-between">
-        <div>
-          <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
-          <small><a class="text-muted">created by {{favorite.collection.user_it_belongs}}</a></small>
+          <h3>It's empty, <b>start collecting links!</b></h3>
+          <p class="lead text-muted">
+            Find the best ressources for you and add them to a great new shareable collection right now!
+          </p>
+          <a href="{% url 'new_collection' %}" type="button" class="btn btn-outline-success"><i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp;Create new collection</a>
+          </div>
         </div>
-        <a href="{% url "delete_favorite" favorite.pk %}" type="button" class="btn btn-default">Delete</a>
-      </li>
-      {% endfor %}
-    </ul>
 
-  </div>
+        {% endfor %}
+      </ul>
 
-  {% endblock %}
+      <h2 class="mt-4 py-3">Collections you liked</h2>
+      <ul class="list-group">
+        {% for favorite in view.favorites %}
+
+        <li class="list-group-item justify-content-between">
+          <div>
+            <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
+            <small><a class="text-muted">created by {{favorite.collection.user_it_belongs}}</a></small>
+          </div>
+          <form method="POST" action="{% url "delete_favorite" favorite.pk %}">
+             {% csrf_token %}<input type="submit" value="Delete">
+          </form>
+
+        </li>
+        {% empty %}
+        <div class="card text-center">
+          <div class="card-block">
+            <span class="big-icon">
+              <i class="fa fa-star" aria-hidden="true"></i>
+            </span>
+
+            <h3>Hey, <b>let's like some collections!</b></h3>
+            <p class="lead text-muted">
+              Why don't you go and find some interesting collections from other users?
+            </p>
+            <a href="{% url 'discover' %}" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i>
+              &nbsp;Discover great collections</a>
+            </div>
+          </div>
+
+          {% endfor %}
+        </ul>
+
+      </div>
+
+      {% endblock %}

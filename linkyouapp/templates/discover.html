@@ -10,9 +10,12 @@
     <form>
       <div class="form-group row">
         <div class="col-sm-10">
-          <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="design youtube playlist">
+          <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" name="q" placeholder="design youtube playlist">
         </div>
-        <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search" aria-hidden="true"></i></button>
+        <form action="{% url "discover" %}"  method="get">
+          <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </form>
+
       </div>
     </form>
   </div>
@@ -24,7 +27,7 @@
     <div class="container">
       <div class="card-deck py-3">
 
-        {% for c in view.collections|slice:":9" %}
+        {% for c in collections|slice:":9" %}
 
         {% if c.image %}
         <div class="card coll-case" style="background-image:url('{{c.image.url}}')">
