@@ -7,7 +7,6 @@ class CollectionForm(forms.ModelForm):
         fields = {'name', 'image', 'tags', 'private'}
         widgets = {
                     'name': forms.TextInput(attrs={'placeholder': 'My great collection'}),
-
                 }
 
 class LinkForm(forms.ModelForm):

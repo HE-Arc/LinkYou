@@ -6,39 +6,38 @@
 <div class="container py-3 mt-4">
 
   <div class="d-flex justify-content-between m3-4">
-  <h2>Your collections</h2>
-  <a href="{% url 'new_collection' %}" type="button" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i>
-&nbsp;Create new collection</a>
-</div>
+    <h2>Your collections</h2>
+    <a href="{% url 'new_collection' %}" type="button" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i>
+      &nbsp;Create new collection</a>
+    </div>
 
-  <ul class="list-group py-3">
-    {% for collection in view.collections %}
+    <ul class="list-group py-3">
+      {% for collection in view.collections %}
 
-    <li class="list-group-item justify-content-between">
-      <a href="{% url "collection_detail" collection.slug collection.pk %}">{{ collection.name }}</a> &nbsp;
-      <div>
-        <a href="{% url "delete_collection" collection.slug collection.pk %}" type="button" class="btn btn-default">Delete</a> &nbsp;
-        <a href="{% url "update_collection" collection.slug collection.pk %}" type="button" class="btn btn-default">Update</a> &nbsp;
-      </div>
-    </li>
+      <li class="list-group-item justify-content-between">
+        <a href="{% url "collection_detail" collection.slug collection.pk %}">{{ collection.name }}</a> &nbsp;
+        <div>
+          <a href="{% url "delete_collection" collection.slug collection.pk %}" type="button" class="btn btn-default">Delete</a> &nbsp;
+          <a href="{% url "update_collection" collection.slug collection.pk %}" type="button" class="btn btn-default">Update</a> &nbsp;
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
 
-    {% endfor %}
-  </ul>
+    <h2 class="mt-4 py-3">Collections you liked</h2>
+    <ul class="list-group">
+      {% for favorite in view.favorites %}
 
-  <h2 class="mt-4 py-3">Collections you liked</h2>
-  <ul class="list-group">
-    {% for favorite in view.favorites %}
+      <li class="list-group-item justify-content-between">
+        <div>
+          <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
+          <small><a class="text-muted">created by {{favorite.collection.user_it_belongs}}</a></small>
+        </div>
+        <a href="{% url "delete_favorite" favorite.pk %}" type="button" class="btn btn-default">Delete</a>
+      </li>
+      {% endfor %}
+    </ul>
 
-    <li class="list-group-item justify-content-between">
-      <div>
-        <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
-        <small><a class="text-muted">created by {{favorite.collection.user_it_belongs}}</a></small>
-      </div>
-      <a href="{% url "delete_favorite" favorite.pk %}" type="button" class="btn btn-default">Delete</a>
-    </li>
-    {% endfor %}
-  </ul>
+  </div>
 
-</div>
-
-{% endblock %}
+  {% endblock %}

@@ -7,24 +7,20 @@
   <div class="container">
     <h1 class="jumbotron-heading">Collections</h1>
     <p class="lead text-muted">Here is the place where you can find people's best collections of web ressources. </p>
-    <p>
-      <form>
-        <div class="form-group row">
-          <div class="col-sm-10">
-            <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="design youtube playlist">
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search" aria-hidden="true"></i></button>
+    <form>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="design youtube playlist">
         </div>
-      </form>
-    </p>
+        <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search" aria-hidden="true"></i></button>
+      </div>
+    </form>
   </div>
 </section>
 
 
 <div class="container ">
-
   <div class="row py-4">
-
     <div class="container">
       <div class="card-deck py-3">
 
@@ -44,30 +40,21 @@
             </a>
           </div>
 
-
           {% if forloop.counter|divisibleby:3 and forloop.counter0 != 0 %}
-          <!-- ICI END CARD DECK -->
         </div>
         <div class="card-deck py-3">
           {% endif %}
 
           {% if forloop.last %}
-
         </div>
+        {% endif %}
+        {% endfor %}
 
-          {% endif %}
-
-          {% endfor %}
-
-
-
-
-
-        </div>
       </div>
     </div>
   </div>
+</div>
 
 
 
-  {% endblock %}
+{% endblock %}
