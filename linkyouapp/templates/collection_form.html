@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% load app_filter %}
 
 {% block content %}
 
@@ -16,7 +17,7 @@
 
         <div class="form-group">
           <label>Name</label>
-          {{form.name}}
+          {{form.name|addcss:"form-control form-control-lg"}}
         </div>
 
         <div class="form-group">
@@ -26,7 +27,7 @@
 
         <div class="form-group">
           <label>Tags</label>
-          {{form.tags}}
+          {{form.tags|addcss:"form-control form-control-lg"}}
         </div>
 
         <div class="form-group">
