@@ -29,7 +29,7 @@
             <i class="fa fa-plus" aria-hidden="true"></i>
           </span>
 
-          <h3>It's empty, <b>start collecting links!</b></h3>
+          <h3>It's empty, <strong>start collecting links!</strong></h3>
           <p class="lead text-muted">
             Find the best ressources for you and add them to a great new shareable collection right now!
           </p>
@@ -48,7 +48,7 @@
         <li class="list-group-item justify-content-between">
           <div>
             <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
-            <small><a class="text-muted">created by {{favorite.collection.user_it_belongs}}</a></small>
+            <span class="author">created by {{favorite.collection.user_it_belongs}}</span>
           </div>
           <form method="POST" action="{% url "delete_favorite" favorite.pk %}">
              {% csrf_token %}<input type="submit" value="Delete">
