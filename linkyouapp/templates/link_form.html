@@ -14,6 +14,14 @@
       <h1>Add links</h1>
       <hr/>
 
+      {% if messages %}
+      <div class="messages alert alert-info" role="alert">
+        {% for message in messages %}
+        <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+        {% endfor %}
+      </div>
+      {% endif %}
+
       <form method="post" class="form-inline">
         {% csrf_token %}
         {{ link_formset.management_form }}
