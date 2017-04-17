@@ -33,8 +33,7 @@
             {% endif %}
             <a class="filter-coll" href="{% url "collection_detail" c.slug c.pk%}">
               <div class="card-block">
-                <h4 class="card-title">{{ c.name }}</h4>
-                <hr/>
+                <h4 class="card-title collection-name pb-2 mb-2">{{ c.name }}</h4>
                 <p class="card-text"><small>by {{c.user_it_belongs.username}}</small></p>
               </div>
             </a>

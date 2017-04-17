@@ -131,3 +131,8 @@ body {
   font-size: 9pt;
   color: #888;
 }
+
+.collection-name{
+  border-bottom: 4px solid #CCC;
+  width: 25%;
+}
