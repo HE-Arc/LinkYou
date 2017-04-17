@@ -118,7 +118,7 @@ class CollectionDeleteView(LoginRequiredMixin, DeleteView):
 
     def dispatch(self, request, *args, **kwargs):
         collection = self.get_object()
-        if collection_it_belongs.user_it_belongs != self.request.user:
+        if collection.user_it_belongs != self.request.user:
             return HttpResponseForbidden("Access forbidden!")
         else:
             return super(CollectionDeleteView, self).dispatch(request, *args, **kwargs)
