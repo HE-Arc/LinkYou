@@ -136,3 +136,7 @@ body {
   border-bottom: 4px solid #CCC;
   width: 25%;
 }
+
+.home-linkyou{
+  font-weight: 800; letter-spacing: -.07em;
+}
