@@ -3,37 +3,77 @@
 
 {% block content %}
 
-<div class="container">
-  <h1>Hello {{request.user.username}}</h1>
+<div class="container py-3 mt-4">
 
-  <h2>Your collections</h2>
-  <br/>
-  <a href="{% url 'new_collection' %}" type="button" class="btn btn-success">Add new collection</a>
+  <div class="d-flex justify-content-between m3-4">
+    <h2>Your collections</h2>
+    <a href="{% url 'new_collection' %}" type="button" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i>
+      &nbsp;Create new collection</a>
+    </div>
 
-<ul class="list-group">
-  {% for collection in view.collections %}
+    <ul class="list-group py-3">
+      {% for collection in view.collections %}
 
-   <li class="list-group-item">
-     <a href="{% url "collection_detail" collection.slug collection.pk %}">{{ collection.name }}</a> &nbsp;
-     <a href="{% url "delete_collection" collection.slug collection.pk %}" type="button" class="btn btn-danger">Delete</a> &nbsp;
-     <a href="{% url "update_collection" collection.slug collection.pk %}" type="button" class="btn btn-info">Update</a> &nbsp;
-   </li>
+      <li class="list-group-item justify-content-between">
+        <a href="{% url "collection_detail" collection.slug collection.pk %}">{{ collection.name }}</a> &nbsp;
+        <div>
+          <a href="{% url "delete_collection" collection.slug collection.pk %}" type="button" class="btn btn-default">Delete</a> &nbsp;
+          <a href="{% url "update_collection" collection.slug collection.pk %}" type="button" class="btn btn-default">Update</a> &nbsp;
+        </div>
+      </li>
+      {% empty %}
 
-  {% endfor %}
-</ul>
+      <div class="card text-center">
+        <div class="card-block">
+          <span class="big-icon">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </span>
 
-<h2> The collections you liked</h2>
-<ul class="list-group">
-  {% for favorite in view.favorites %}
+          <h3>It's empty, <strong>start collecting links!</strong></h3>
+          <p class="lead text-muted">
+            Find the best ressources for you and add them to a great new shareable collection right now!
+          </p>
+          <a href="{% url 'new_collection' %}" type="button" class="btn btn-outline-success"><i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp;Create new collection</a>
+          </div>
+        </div>
 
-  <li class="list-group-item">
-    <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
-    <a>Created by {{favorite.collection.user_it_belongs}}</a> &nbsp;
-    <a href="{% url "delete_favorite" favorite.pk %}" type="button" class="btn btn-danger">Delete</a> &nbsp;
-  </li>
-  {% endfor %}
-</ul>
+        {% endfor %}
+      </ul>
 
-</div>
+      <h2 class="mt-4 py-3">Collections you liked</h2>
+      <ul class="list-group">
+        {% for favorite in view.favorites %}
 
-{% endblock %}
+        <li class="list-group-item justify-content-between">
+          <div>
+            <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
+            <span class="author">created by {{favorite.collection.user_it_belongs}}</span>
+          </div>
+          <form method="POST" action="{% url "delete_favorite" favorite.pk %}">
+             {% csrf_token %}<input type="submit" value="Delete">
+          </form>
+
+        </li>
+        {% empty %}
+        <div class="card text-center">
+          <div class="card-block">
+            <span class="big-icon">
+              <i class="fa fa-star" aria-hidden="true"></i>
+            </span>
+
+            <h3>Hey, <b>let's like some collections!</b></h3>
+            <p class="lead text-muted">
+              Why don't you go and find some interesting collections from other users?
+            </p>
+            <a href="{% url 'discover' %}" type="button" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i>
+              &nbsp;Discover great collections</a>
+            </div>
+          </div>
+
+          {% endfor %}
+        </ul>
+
+      </div>
+
+      {% endblock %}

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import CollectionForm, LinkForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.forms.formsets import formset_factory
 from django.db import IntegrityError, transaction
 from django.http import HttpResponse
@@ -19,7 +19,7 @@ class Home(TemplateView):
     template_name = 'home.html'
 
     def best_collections(self):
-        return Favorite.objects.all()#filter(private=False)
+        return Favorite.objects.filter()#filter(private=False)
 
     def collections(self):
         return Collection.objects.filter(private=False)
@@ -30,12 +30,18 @@ class About(TemplateView):
     def get(self, request):
         return render(request, "about.html")
 
-class Discover(TemplateView):
+class Discover(ListView):
     '''The public page to discover users' collections'''
     template_name = 'discover.html'
+    model = Collection
+    context_object_name = 'collections'
+    collections = []
 
-    def collections(self):
-        return Collection.objects.filter(private=False)
+    def get_queryset(self):
+        if self.request.GET.get('q'):
+            return Collection.objects.filter(tags__name__in=self.request.GET.get('q').split())
+        else:
+            return Collection.objects.filter(private=False)
 
 
 # User related views
@@ -65,7 +71,9 @@ class CollectionDetailView(DetailView):
         if self.object.user_it_belongs == self.request.user :
             canLike = False
             canModify = True
-        if Favorite.objects.filter(collection=self.object, profile=self.request.user.profile):
+        if not self.request.user.is_authenticated:
+            canLike = False
+        elif Favorite.objects.filter(collection=self.object, profile=self.request.user.profile):
             canLike = False
         context['canLike']=canLike
         context['canModify'] = canModify
@@ -95,25 +103,44 @@ class CollectionUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "collection_form.html"
     success_url = reverse_lazy("dashboard")
 
+    def dispatch(self, request, *args, **kwargs):
+        collection = self.get_object()
+        if collection.user_it_belongs != self.request.user:
+            return HttpResponseForbidden("Access forbidden!")
+        else:
+            return super(CollectionUpdateView, self).dispatch(request, *args, **kwargs)
+
 class CollectionDeleteView(LoginRequiredMixin, DeleteView):
     '''The delete view yeah'''
     model = Collection
     template_name = "collection_confirm_delete.html"
     success_url = reverse_lazy("dashboard")
 
+    def dispatch(self, request, *args, **kwargs):
+        collection = self.get_object()
+        if collection.user_it_belongs != self.request.user:
+            return HttpResponseForbidden("Access forbidden!")
+        else:
+            return super(CollectionDeleteView, self).dispatch(request, *args, **kwargs)
+
 class LinkCreateView(LoginRequiredMixin, TemplateView):
     '''View of a link creation'''
 
     def get(self, request, *args, **kwargs):
-        LinkFormSet = formset_factory(LinkForm)
+        LinkFormSet = formset_factory(LinkForm, min_num=1, validate_min=True)
 
         collection_links = Link.objects.filter(collection_it_belongs=Collection.objects.get(pk=self.kwargs['pk']))
+
+        if collection_links:
+            if collection_links[0].collection_it_belongs.user_it_belongs != request.user:
+                return HttpResponseForbidden("Access forbidden!")
+
         link_data = [{'text': l.text, 'url': l.url} for l in collection_links]
         link_formset = LinkFormSet(initial=link_data)
         return render(request, 'link_form.html', {'link_formset': link_formset,})
 
     def post(self, request, *args, **kwargs):
-        LinkFormSet = formset_factory(LinkForm)
+        LinkFormSet = formset_factory(LinkForm, min_num=1, validate_min=True)
         link_formset = LinkFormSet(request.POST)
         new_links = []
 
@@ -126,17 +153,26 @@ class LinkCreateView(LoginRequiredMixin, TemplateView):
                     new_links.append(Link(collection_it_belongs=Collection.objects.get(pk=self.kwargs['pk']), text=text, url=url))
 
             try:
-                with transaction.atomic():
-                    Link.objects.filter(collection_it_belongs=Collection.objects.get(pk=self.kwargs['pk'])).delete()
-                    Link.objects.bulk_create(new_links)
+                Link.objects.filter(collection_it_belongs=Collection.objects.get(pk=self.kwargs['pk'])).delete()
+                Link.objects.bulk_create(new_links)
 
-                    # And notify our users that it worked
-                    messages.success(request, 'You have updated your profile.')
-                    return HttpResponseRedirect(reverse('collection_detail', kwargs={'pk':int(self.kwargs['pk']), 'slug': 'test'}))
+                # And notify our users that it worked
+                messages.success(request, 'Collection successfully updated !')
+                return HttpResponseRedirect(reverse('collection_detail', kwargs={'pk':int(self.kwargs['pk']), 'slug': 'test'}))
 
             except IntegrityError: #If the transaction failed
                 messages.error(request, 'There was an error saving your profile.')
                 return redirect(reverse('profile-settings'))
+        else:
+            print(link_formset.errors)
+            LinkFormSet = formset_factory(LinkForm, min_num=1, validate_min=True)
+            collection_links = Link.objects.filter(collection_it_belongs=Collection.objects.get(pk=self.kwargs['pk']))
+            link_data = [{'text': l.text, 'url': l.url} for l in collection_links]
+            link_formset = LinkFormSet(initial=link_data)
+            messages.info(request, "Please add at least one link!")
+            return render(request, 'link_form.html', {'link_formset': link_formset,})
+
+
 
 class CreateFavoriteView(LoginRequiredMixin, View):
     '''Favorite some collection'''
@@ -162,6 +198,13 @@ class LinkUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "link_form_simple.html"
     success_url = reverse_lazy("dashboard")
 
+    def dispatch(self, request, *args, **kwargs):
+        link = self.get_object()
+        if link.collection_it_belongs.user_it_belongs != self.request.user:
+            return HttpResponseForbidden("Access forbidden!")
+        else:
+            return super(LinkUpdateView, self).dispatch(request, *args, **kwargs)
+
 
 class LinkDeleteView(LoginRequiredMixin, DeleteView):
     '''The delete form for the view'''
@@ -170,3 +213,10 @@ class LinkDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse("collection_detail" , kwargs={"pk":self.object.collection_it_belongs.id, "slug":self.object.collection_it_belongs.slug})
+
+    def dispatch(self, request, *args, **kwargs):
+        link = self.get_object()
+        if link.collection_it_belongs.user_it_belongs != self.request.user:
+            return HttpResponseForbidden("Access forbidden!")
+        else:
+            return super(LinkDeleteView, self).dispatch(request, *args, **kwargs)

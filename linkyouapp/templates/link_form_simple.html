@@ -1,13 +1,27 @@
 
 {% extends 'base.html' %}
 {% load static %}
+{% load app_filter %}
 
 {% block content %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ form }}
-  <button type="submit" class="btn btn-primary">Update</button>
-</form>
+<div class="container">
 
+  <div class="card my-4">
+    <div class="card-block">
+
+      <h1>Edit link</h1>
+      <hr/>
+      <form method="post" class="form-inline">
+        {% csrf_token %}
+        <div class="my-1">
+          {{ form.text|addcss:"form-control"}}
+          {{ form.url|addcss:"form-control" }}
+        </div>
+        <button type="submit" class="btn btn-primary mx-1">Update</button>
+      </form>
+
+    </div>
+  </div>
+</div>
 {% endblock %}
