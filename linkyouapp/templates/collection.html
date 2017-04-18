@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block meta %}
-<meta property="og:url"           content="{{request.build_absolute_uri}}" />
-<meta property="og:type"          content="website" />
-<meta property="og:title"         content="Linkyou Collection - {{collection.name}}" />
-<meta property="og:description"   content="A LinkYou online ressources colleciton." />
+<meta property="og:url"           content="{{request.build_absolute_uri}}" >
+<meta property="og:type"          content="website" >
+<meta property="og:title"         content="Linkyou Collection - {{collection.name}}" >
+<meta property="og:description"   content="A LinkYou online ressources collection." >
 
 {% if collection.image %}
-<meta property="og:image"         content="{{collection.image.url}}" />
+<meta property="og:image"         content="{{collection.image.url}}" >
 {% else %}
-<meta property="og:image"         content="http://lorempicsum.com/futurama/350/200/1" />
+<meta property="og:image"         content="http://lorempicsum.com/futurama/350/200/1" >
 {% endif %}
 
 {% endblock %}
@@ -45,20 +45,8 @@
 
 <script>
 
-function openInNewTab(url) {
-  var win = window.open(url, '_blank');
-  win.focus();
-}
-
 function openAll(){
-
-{% for l in collection.link_set.all %}
-
-openInNewTab('{{l.url}}');
-
-{% endfor %}
-
-
+  $(".linkyou-url").each(function(idx, alink){alink.click()})
 }
 
 </script>
@@ -82,13 +70,13 @@ openInNewTab('{{l.url}}');
             <div>
               <form method="post" action="/favorite/new/">
                 {% csrf_token %}
-                <input type="hidden" name="collection" value="{{collection.pk}}"/>
+                <input type="hidden" name="collection" value="{{collection.pk}}">
                 <button class="btn btn-outline-secondary p-2 ml-4 mt-1" type="submit">I like it !</button>
               </form>
             </div>
             {% endif %}
           </div>
-          <hr/>
+          <hr>
           <p class="card-text"><small>a collection by {{collection.user_it_belongs.username}}</small></p>
         </div>
 
@@ -125,7 +113,7 @@ openInNewTab('{{l.url}}');
             <li class="list-group-item justify-content-between">
               <div>
                 <img src="http://www.google.com/s2/favicons?domain={{l.url}}" alt="fav">&nbsp;
-                <a href="{{l.url}}" target="_blank">{{l.text}}</a> &nbsp;
+                <a href="{{l.url}}" target="_blank" rel="nofollow" class="linkyou-url">{{l.text}}</a> &nbsp;
               </div>
               {% if canModify %}
               <div>
@@ -153,7 +141,7 @@ openInNewTab('{{l.url}}');
                 <div class="modal-body">
 
                   {% for l in collection.link_set.all %}
-                  {{l.url}};{{l.text}}<br/>
+                  {{l.url}};{{l.text}}<br>
                   {% endfor %}
 
                 </div>

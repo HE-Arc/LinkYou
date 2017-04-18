@@ -126,3 +126,17 @@ body {
   height: 40vh;
   max-height: 40vh;
 }
+
+.author{
+  font-size: 9pt;
+  color: #888;
+}
+
+.collection-name{
+  border-bottom: 4px solid #CCC;
+  width: 25%;
+}
+
+.home-linkyou{
+  font-weight: 800; letter-spacing: -.07em;
+}

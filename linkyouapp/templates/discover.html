@@ -7,15 +7,12 @@
   <div class="container">
     <h1 class="jumbotron-heading">Collections</h1>
     <p class="lead text-muted">Here is the place where you can find people's best collections of web ressources. </p>
-    <form>
+    <form action="{% url "discover" %}"  method="get">
       <div class="form-group row">
         <div class="col-sm-10">
           <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" name="q" placeholder="design youtube playlist">
         </div>
-        <form action="{% url "discover" %}"  method="get">
-          <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search" aria-hidden="true"></i></button>
-        </form>
-
+        <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search" aria-hidden="true"></i></button>
       </div>
     </form>
   </div>
@@ -36,8 +33,7 @@
             {% endif %}
             <a class="filter-coll" href="{% url "collection_detail" c.slug c.pk%}">
               <div class="card-block">
-                <h4 class="card-title">{{ c.name }}</h4>
-                <hr/>
+                <h4 class="card-title collection-name pb-2 mb-2">{{ c.name }}</h4>
                 <p class="card-text"><small>by {{c.user_it_belongs.username}}</small></p>
               </div>
             </a>
