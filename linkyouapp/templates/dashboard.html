@@ -31,7 +31,7 @@
 
           <h3>It's empty, <strong>start collecting links!</strong></h3>
           <p class="lead text-muted">
-            Find the best ressources for you and add them to a great new shareable collection right now!
+            Find the best resources for you and add them to a great new shareable collection right now!
           </p>
           <a href="{% url 'new_collection' %}" type="button" class="btn btn-outline-success"><i class="fa fa-plus" aria-hidden="true"></i>
             &nbsp;Create new collection</a>
@@ -47,6 +47,7 @@
 
         <li class="list-group-item justify-content-between">
           <div>
+            {# SELECT n+1 #}
             <a href="{% url "collection_detail" favorite.collection.slug favorite.collection.pk %}">{{favorite.collection}}</a> &nbsp;
             <span class="author">created by {{favorite.collection.user_it_belongs}}</span>
           </div>

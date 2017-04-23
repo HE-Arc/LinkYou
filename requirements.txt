@@ -1,10 +1,5 @@
-appdirs==1.4.0
-Django==1.10.5
+Django>=1.10.5,<1.11
 django-registration==2.2
 django-taggit==0.22.0
-olefile==0.44
-packaging==16.8
-Pillow==4.0.0
+Pillow>=4.0.0
 psycopg2==2.6.2
-pyparsing==2.1.10
-six==1.10.0

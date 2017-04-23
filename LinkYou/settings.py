@@ -20,7 +20,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'pk+i7^1ku6t296tn0la^9au(q0_vug4vb5l1ldo5qa+&lu1mi0'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'pk+i7^1ku6t296tn0la^9au(q0_vug4vb5l1ldo5qa+&lu1mi0')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,11 +81,11 @@ WSGI_APPLICATION = 'LinkYou.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('LINKYOU_DB_NAME', False),
-        'USER': os.environ.get('LINKYOU_DB_USER', False),
-        'PASSWORD': os.environ.get('LINKYOU_DB_PASSWORD', False),
-        'HOST': os.environ.get('LINKYOU_DB_HOST', False),
-        'PORT': '',
+        'NAME': os.environ.get('LINKYOU_DB_NAME', 'django'),
+        'USER': os.environ.get('LINKYOU_DB_USER', 'django'),
+        'PASSWORD': os.environ.get('LINKYOU_DB_PASSWORD', 'django'),
+        'HOST': os.environ.get('LINKYOU_DB_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('LINKYOU_DB_PORT', '5432'),
     }
 }
 
