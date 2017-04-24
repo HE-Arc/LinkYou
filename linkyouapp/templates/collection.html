@@ -109,6 +109,7 @@ function openAll(){
           </div>
 
           <ul class="list-group links-list py-2">
+            {# SQL n°1 #}
             {% for l in collection.link_set.all %}
             <li class="list-group-item justify-content-between">
               <div>
@@ -140,6 +141,7 @@ function openAll(){
                 </div>
                 <div class="modal-body">
 
+                  {# SQL n°2 #}
                   {% for l in collection.link_set.all %}
                   {{l.url}};{{l.text}}<br>
                   {% endfor %}

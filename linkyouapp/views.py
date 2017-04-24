@@ -68,9 +68,10 @@ class CollectionDetailView(DetailView):
         context = super(CollectionDetailView, self).get_context_data(**kwargs)
         canLike = True
         canModify = False
-        if self.object.user_it_belongs == self.request.user :
+        if self.object.user_it_belongs == self.request.user:
             canLike = False
             canModify = True
+        # XXX le test ci-dessus est un peu déconnecté des tests du dessous.
         if not self.request.user.is_authenticated:
             canLike = False
         elif Favorite.objects.filter(collection=self.object, profile=self.request.user.profile):
@@ -91,6 +92,7 @@ class CollectionCreateView(LoginRequiredMixin, CreateView):
         new_collection.user_it_belongs = self.request.user # Add creator (request user)
         new_collection.save()
         collection_form.save_m2m()
+        # super() is super!
         return self.get_success_url()
 
     def get_success_url(self):

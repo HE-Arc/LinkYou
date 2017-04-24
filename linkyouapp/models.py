@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User  # XXX get_user_model()
 from django.utils.text import slugify
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -40,8 +40,8 @@ class Profile(models.Model):
         return self.user.username
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if kwargs.get('raw', False):
+def create_user_profile(sender, instance, created, *, raw=False, **kwargs):
+    if raw:
         return False
     if created:
         Profile.objects.create(user=instance).save()
